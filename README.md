@@ -120,8 +120,56 @@ int main()
 ```
 
 ## How It Works
-1. **Tokenization:** The program reads the source code line by line and splits it into tokens.
-3. **Symbol Table:** Recognized tokens are stored in the `SymbolTable`.
-4. **Error Detection:** Unrecognized tokens and incorrect syntax are stored in the `ErrorHandler`.
-5. **Output Display:** The program prints the **symbol table** and **lexical errors** if any.
-6. **Transition Table:** The final State Transition Table is then displayed.
+
+### **1. Tokenization (Lexical Analysis)**
+- The program reads the source code **line by line**, breaking it down into individual tokens.
+- Tokens are categorized into **keywords, datatypes, identifiers, operators, delimiters, numbers, and comments**.
+- **Whitespace and comments are ignored**, ensuring they do not interfere with tokenization.
+
+### **2. Symbol Table Construction**
+- A **symbol table** is created to store relevant information about variables, functions, and constants in the program.
+- Each valid identifier (variable or function) is recorded along with its **datatype, scope (global/local), and memory location**.
+- The symbol table helps with **semantic analysis** later in compilation and assists with **error detection**.
+
+### **3. Operator and Delimiter Identification**
+- The lexical analyzer detects **operators and delimiters** using predefined symbol lists.
+- Operators such as `+`, `-`, `*`, `/`, `%`, and `^` are recognized as **arithmetic operators**.
+- Operators like `>`, `<`, `>=`, `<=`, `==`, `!=`, `&&`, and `!` are classified as **relational and logical operators**.
+- Delimiters including **brackets, parentheses, semicolons, and commas** are properly categorized to maintain correct syntax structure.
+
+### **4. Handling Comments**
+- **Single-line comments (`//`)**: Everything after `//` on a line is ignored.
+- **Multi-line comments (`/* */`)**: The analyzer ensures that everything between `/*` and `*/` is ignored, regardless of how many lines it spans.
+- Proper handling of comments prevents unnecessary parsing and helps in code readability.
+
+### **5. Error Detection and Handling**
+- The program detects **lexical errors** such as:
+  - **Invalid identifiers** (e.g., variable names starting with numbers)
+  - **Unrecognized symbols** that do not belong to the defined syntax
+  - **Missing tokens** such as an unclosed string (`"hello` without `"`), or unclosed comments (`/*` without `*/`)
+- Detected errors are **logged into the `ErrorHandler`**, and error messages are displayed to the user.
+
+### **6. Processing Keywords and Identifiers**
+- **Keywords** are stored in a predefined list and checked against tokens to differentiate them from identifiers.
+- **Identifiers** (variable and function names) are validated using **naming conventions** (e.g., lowercase letters for variable names).
+
+### **7. Numeric Literal Recognition**
+- The lexical analyzer differentiates between:
+  - **Integer literals** (e.g., `123`)
+  - **Decimal literals** (e.g., `12.34567`)
+  - **Character literals** (e.g., `'A'`)
+  - **Boolean literals** (`true`, `false`)
+- Invalid numeric formats (e.g., `12..34`, `123a`) are flagged as lexical errors.
+
+### **8. Transition Table Generation**
+- After processing the input code, a **state transition table** is generated to represent how the DFA transitions between states during lexical analysis.
+- The transition table is displayed as output, providing a clear visualization of how tokens were classified.
+
+### **9. Output Display**
+- **Symbol Table**: Displays all valid identifiers along with their attributes (type, scope, etc.).
+- **Lexical Errors**: Lists any errors encountered during analysis.
+- **State Transition Table**: Shows the DFA transitions for token recognition.
+
+### **10. Integration with Other Phases**
+- The lexical analyzer serves as the **first phase** of a compiler.
+- The generated tokens and symbol table can be used for **syntax analysis (parsing)** and **semantic analysis** in later stages of compilation.
